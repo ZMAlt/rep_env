@@ -30,7 +30,7 @@ jobs:
           sudo apt install -y apt-rdepends
 
       - name: Generate package list
-        run: apt-rdepends gmt gmt-dcw gmt-gshhg ghostscript gdal-bin rep -v "^ " | sort -u > debs/package-list.txt
+        run: apt-rdepends gmt gmt-dcw gmt-gshhg ghostscript gdal-bin | grep -v "^ " | sort -u > debs/package-list.txt
 
       - name: Download DEB files
         run: |
