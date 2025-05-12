@@ -1,13 +1,27 @@
 name: Download DEB Packages for Offline Use
-
-on:
-  workflow_dispatch:
-
+'on':
+  push:
+    branches:
+      - main
+defaults:
+  run:
+    shell: 'bash -el {0}'
 jobs:
-  download-debs:
-    runs-on: ubuntu-22.04
-
+  build:
+    name: '${{ matrix.name }}- ${{ matrix.arch }}'
+    runs-on: '${{ matrix.os }}'
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Linux
+            os: ubuntu-22.04
+            #os: ubuntu-latest
+            arch: x86
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+
       - name: Set up workspace
         run: |
           mkdir -p debs
@@ -15,24 +29,7 @@ jobs:
           sudo apt install -y apt-rdepends
 
       - name: Generate package list
-        run: |
-          apt-rdepends \
-            build-essential \
-            cmake \
-            ninja-build \
-            libcurl4-gnutls-dev \
-            libnetcdf-dev \
-            gdal-bin \
-            libgdal-dev \
-            libgeos-dev \
-            libglib2.0-dev \
-            libpcre3-dev \
-            libfftw3-dev \
-            liblapack-dev \
-            ghostscript \
-            libnetcdf-fortran-dev \
-			gmt \
-            | grep -v "^ " | sort -u > debs/package-list.txt
+        run: apt-rdepends gmt gmt-dcw gmt-gshhg ghostscript gdal-bin rep -v "^ " | sort -u > debs/package-list.txt
 
       - name: Download DEB files
         run: |
