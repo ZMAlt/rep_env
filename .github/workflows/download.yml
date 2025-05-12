@@ -20,8 +20,8 @@ jobs:
             #os: ubuntu-latest
             arch: x86
     steps:
-      # - name: Checkout
-      #   uses: actions/checkout@v4.2.2
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
 
       - name: Set up workspace
         run: |
@@ -43,7 +43,7 @@ jobs:
           zip -r ../offline-packages.zip .
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: offline-deb-packages
           path: offline-packages.zip
