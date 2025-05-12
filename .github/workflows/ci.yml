@@ -8,7 +8,7 @@ defaults:
     shell: 'bash -el {0}'
 jobs:
   build:
-    name: '${{ matrix.name }}'
+    name: '${{ matrix.name }}- ${{ matrix.arch }}'
     runs-on: '${{ matrix.os }}'
     strategy:
       fail-fast: false
