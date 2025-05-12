@@ -54,7 +54,8 @@ jobs:
           echo "install/bin" >> $GITHUB_PATH
       - name: Check a few simple commands
         run: |
-          ls gmt_install
-          ls gmt_insall/install
           gmt
+          nc-config --has-fortran
+          ls gmt_install
+          ls gmt_install/install
           nc-config --has-fortran
