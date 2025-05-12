@@ -47,9 +47,7 @@ jobs:
 
           cd netcdf-fortran-4.6.1
 
-          mkdir netcdff
-
-          ./configure --prefix=netcdff
+          ./configure --prefix=/usr/local
 
           sudo make install
 
