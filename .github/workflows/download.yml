@@ -2,8 +2,8 @@ name: Download DEB Packages for Offline Use
 'on':
   push:
     branches:
-      #- main
-      - test
+      - main
+
 defaults:
   run:
     shell: 'bash -el {0}'
