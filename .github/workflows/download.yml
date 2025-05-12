@@ -2,7 +2,8 @@ name: Download DEB Packages for Offline Use
 'on':
   push:
     branches:
-      - main
+      # - main
+      - temp
 
 defaults:
   run:
