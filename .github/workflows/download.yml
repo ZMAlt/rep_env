@@ -19,9 +19,6 @@ jobs:
             #os: ubuntu-latest
             arch: x86
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4.2.2
-
       - name: Set up workspace
         run: |
           mkdir -p debs
