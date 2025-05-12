@@ -1,52 +1,62 @@
 name: Build
-
-on:
+'on':
   push:
     branches:
-      - main
-
+      #- main
+      - test
 defaults:
   run:
-    # default to use bash shell
-    shell: bash -el {0}
-
+    shell: 'bash -el {0}'
 jobs:
   build:
-    name: ${{ matrix.name }}
-    runs-on: ${{ matrix.os }}
-
+    name: '${{ matrix.name }}- ${{ matrix.arch }}'
+    runs-on: '${{ matrix.os }}'
     strategy:
       fail-fast: false
       matrix:
         include:
           - name: Linux
-            #os: ubuntu-latest
             os: ubuntu-22.04
-          # - name: macOS
-          #   os: macos-latest
-
+            #os: ubuntu-latest
+            arch: x86
     steps:
       - name: Checkout
         uses: actions/checkout@v4.2.2
-
       - name: Install GMT dependencies
-        run: |
-            sudo apt update
-            sudo apt install gfortran
-            sudo apt install build-essential cmake ninja-build libcurl4-gnutls-dev
-            sudo apt install libnetcdf-dev libnetcdf-fortran-dev
-            sudo apt install gdal-bin libgdal-dev libgeos-dev
-            sudo apt install libglib2.0-dev libpcre3-dev libfftw3-dev liblapack-dev
-			sudo apt install ghostscript
+        run: >
+
+          sudo apt update
+
+          sudo apt install -y --no-install-recommends --no-install-suggests \
+
+          gfortran build-essential cmake ninja-build libcurl4-gnutls-dev \
+
+          libnetcdf-dev ghostscript \
+
+          gdal-bin libgdal-dev libgeos-dev \
+
+          libglib2.0-dev libpcre3-dev libfftw3-dev liblapack-dev
+
+      - name: Install netcdf-fortran
+        run: >
+          wget
+          https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.1.tar.gz
+
+          tar -xzf v4.6.1.tar.gz
+
+          cd netcdf-fortran-4.6.1
+
+          ./configure --prefix=/usr/local
+
+          sudo make install
 
       - name: Install GMT
         run: |
-            bash ci/build.sh
-            echo "install/bin" >> $GITHUB_PATH
-
+          bash ci/build.sh
+          echo "install/bin" >> $GITHUB_PATH
       - name: Check a few simple commands
         run: |
-            ls gmt_install
-            ls gmt_insall/install
-            gmt
-            nc-config --has-fortran
+          gmt
+          nc-config --has-fortran
+          # ls gmt_install
+          # ls gmt_install/install
