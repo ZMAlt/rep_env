@@ -30,11 +30,13 @@ jobs:
 
       - name: Install GMT dependencies
         run: |
-			sudo apt update
-			sudo apt install build-essential cmake ninja-build libcurl4-gnutls-dev libnetcdf-dev gdal-bin libgdal-dev
-			sudo apt install libgeos-dev libglib2.0-dev libpcre3-dev libfftw3-dev liblapack-dev
+            sudo apt update
+            sudo apt install gfortran
+            sudo apt install build-essential cmake ninja-build libcurl4-gnutls-dev
+            sudo apt install libnetcdf-dev libnetcdf-fortran-dev
+            sudo apt install gdal-bin libgdal-dev libgeos-dev
+            sudo apt install libglib2.0-dev libpcre3-dev libfftw3-dev liblapack-dev
 			sudo apt install ghostscript
-			sudo apt install gfortran libnetcdf-fortran-dev
 
       - name: Install GMT
         run: |

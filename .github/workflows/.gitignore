@@ -1,0 +1,9 @@
+# GMT
+**/gmt.conf
+**/gmt.history
+
+# macos
+**/.DS_Store
+
+# vim
+**/.*.swp
