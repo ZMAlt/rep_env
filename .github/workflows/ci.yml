@@ -1,0 +1,53 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+	branches:
+      - main
+
+defaults:
+  run:
+    # default to use bash shell
+    shell: bash -el {0}
+
+jobs:
+  build:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Linux
+            os: ubuntu-latest
+          # - name: macOS
+          #   os: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+
+      - name: Install GMT dependencies
+        run: |
+			sudo apt update
+			sudo apt install build-essential cmake ninja-build libcurl4-gnutls-dev libnetcdf-dev gdal-bin libgdal-dev
+			sudo apt install libgeos-dev libglib2.0-dev libpcre3-dev libfftw3-dev liblapack-dev
+			sudo apt install ghostscript
+			sudo apt install gfortran libnetcdf-fortran-dev
+
+      - name: Install GMT
+        run: |
+            bash ci/build.sh
+            echo "install/bin" >> $GITHUB_PATH
+
+      - name: Check a few simple commands
+        run: |
+            ls gmt_install
+            ls gmt_insall/install
+            gmt
+            nc-config --has-fortran
