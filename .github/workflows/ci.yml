@@ -17,7 +17,6 @@ jobs:
           - name: Linux
             os: ubuntu-latest
             arch: x86
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4.2.2
@@ -31,7 +30,7 @@ jobs:
 
           sudo apt install build-essential cmake ninja-build libcurl4-gnutls-dev
 
-          sudo apt install libnetcdf-dev libnetcdf-fortran-dev
+          sudo apt install libnetcdf-dev
 
           sudo apt install gdal-bin libgdal-dev libgeos-dev
 
@@ -39,11 +38,26 @@ jobs:
           liblapack-dev
 
           sudo apt install ghostscript
+      - name: Install netcdf-fortran
+        run: >
+          wget
+          https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.1.tar.gz
+
+          tar -xzf v4.6.1.tar.gz
+
+          cd netcdf-fortran-4.6.1
+
+          mkdir netcdff
+
+          ./configure --prefix=netcdff
+
+          sudo make install
+
+          echo "netcdff/bin" >> $GITHUB_PATH
       - name: Install GMT
         run: |
           bash ci/build.sh
           echo "install/bin" >> $GITHUB_PATH
-
       - name: Check a few simple commands
         run: |
           ls gmt_install
