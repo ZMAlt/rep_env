@@ -26,8 +26,7 @@ jobs:
       - name: Set up workspace
         run: |
           mkdir -p debs
-          sudo apt remove -y postgresql-common || true
-          sudo rm -f /etc/apt/sources.list.d/pgdg.list || true
+          sudo apt install libpq5=14.9-0ubuntu0.22.04.1
           sudo apt update
           sudo apt install -y apt-rdepends
 
