@@ -56,6 +56,5 @@ jobs:
         run: |
           gmt
           nc-config --has-fortran
-          ls gmt_install
-          ls gmt_install/install
-          nc-config --has-fortran
+          # ls gmt_install
+          # ls gmt_install/install
