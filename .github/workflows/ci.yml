@@ -20,7 +20,8 @@ jobs:
       matrix:
         include:
           - name: Linux
-            os: ubuntu-latest
+            #os: ubuntu-latest
+            os: ubuntu-22.04
           # - name: macOS
           #   os: macos-latest
 

@@ -1,0 +1,52 @@
+name: Download DEB Packages for Offline Use
+
+on:
+  workflow_dispatch:
+
+jobs:
+  download-debs:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Set up workspace
+        run: |
+          mkdir -p debs
+          sudo apt update
+          sudo apt install -y apt-rdepends
+
+      - name: Generate package list
+        run: |
+          apt-rdepends \
+            build-essential \
+            cmake \
+            ninja-build \
+            libcurl4-gnutls-dev \
+            libnetcdf-dev \
+            gdal-bin \
+            libgdal-dev \
+            libgeos-dev \
+            libglib2.0-dev \
+            libpcre3-dev \
+            libfftw3-dev \
+            liblapack-dev \
+            ghostscript \
+            libnetcdf-fortran-dev \
+			gmt \
+            | grep -v "^ " | sort -u > debs/package-list.txt
+
+      - name: Download DEB files
+        run: |
+          cd debs
+          xargs -a package-list.txt apt download
+
+      - name: Create zip archive
+        run: |
+          cd debs
+          zip -r ../offline-packages.zip .
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: offline-deb-packages
+          path: offline-packages.zip
+
