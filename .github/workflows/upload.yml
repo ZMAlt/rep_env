@@ -25,7 +25,7 @@ jobs:
 
       - name: download debs
         run: |
-            curl https://drive.google.com/file/d/1I0oqg9RWD6yGe6ukhUEYggnTg1yunIPP/view?usp=drive_link
+            wget https://drive.google.com/file/d/1I0oqg9RWD6yGe6ukhUEYggnTg1yunIPP/view?usp=drive_link
             unzip debs.zip
 
       - name: install
